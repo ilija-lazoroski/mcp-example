@@ -1,0 +1,84 @@
+[project]
+authors = [{name = "Ilija Lazoroski", email="ilijalazoroski@gmail.com"}]
+classifiers=[
+    "Programming Language :: Python :: 3.13"
+]
+dependencies = [
+    "llama-cpp-python>=0.3.13",
+    "mcp[cli]>=1.11.0",
+    "transformers>=4.53.2",
+]
+description = "Short example of what MCP can do."
+dynamic = ["readme"]
+name = "mcp-example"
+version = "v0.1.0"
+requires-python = ">=3.13"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"]}
+
+[project.urls]
+Repository = "https://github.com/ilija-lazoroski/mcp-example"
+
+[tool.black]
+line-length = 100
+
+[tool.cruft]
+skip = [
+    "mcp_example/__init__.py",
+    "README.md",
+    "CHANGELOG.md",
+    "vulture_allowlist.py"
+]
+
+[tool.isort]
+known_first_party = "mcp_example"
+line_length = 100
+skip_glob="**/__init__.py"
+### for compatibility with black
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.mypy]
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+log_cli = 1
+log_cli_level = "DEBUG"
+log_cli_format = "%(asctime)s [%(levelname)s] %(module)s.%(funcName)s.%(lineno)d: %(message)s"
+log_cli_date_format = "%H:%M:%S"
+addopts = "-v --capture=sys tests"
+
+[tool.vulture]
+exclude=[]
+paths = ["mcp_example", "vulture_allowlist.py"]
+
+[tool.poetry]
+include = ["CHANGELOG.md", "README.md"]
+
+[tool.poetry.group.dev.dependencies]
+black = "24.3.0"
+dlint = "0.14.1"
+flake8 = "7.1.1"
+isort = "5.12.0"
+mypy = "1.11.1"
+pudb = "^2022.1.2"
+pynvim = "^0.4.3"
+pytest = "^7.1.0"
+pytest-cov = "^3.0.0"
+pytest-xdist = "^3.3.1"
+vulture = "2.9.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0", "setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["mcp_example"]
+
+[project.scripts]
+server = "mcp_example.servers:run_server"
